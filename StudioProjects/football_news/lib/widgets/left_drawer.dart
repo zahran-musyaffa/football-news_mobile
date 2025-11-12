@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:football_news/menu.dart';
-import 'package:football_news/newslist_from.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -16,39 +14,49 @@ class LeftDrawer extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Text('Football News', textAlign: TextAlign.center, style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+                Text(
+                  'Football News',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-                Padding(padding: EdgeInsets.all(10),),
-                Text('All the latest football updates here')
+                Padding(
+                  padding: EdgeInsets.all(10),
+                ),
+                Text('All the latest football updates here'),
               ],
             ),
           ),
           ListTile(
-  leading: const Icon(Icons.home_outlined),
-  title: const Text('Home'),
-  onTap: () {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(),
-        ));
-  },
-),
-    ListTile(
-      leading: const Icon(Icons.post_add),
-      title: const Text('Add News'),
-      // Redirect to NewsFormPage
-      onTap: () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewsFormPage()));
-      
-      },
-    ),
-ListTile(
-  leading: const Icon(Icons.list),
-  title: const Text('List Tile'),
-  onTap: () {
-  },
-),        ],
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/home');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.post_add),
+            title: const Text('Add News'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/news-form');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('List Tile'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('News List'),
+            onTap: () {
+              Navigator.pushNamed(context, '/news-list');
+            },
+          ),
+        ],
       ),
     );
   }

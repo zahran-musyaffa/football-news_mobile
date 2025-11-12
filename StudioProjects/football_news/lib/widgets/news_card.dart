@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:football_news/menu.dart';
-import 'package:football_news/newslist_from.dart';
 
 class ItemCard extends StatelessWidget {
   // Menampilkan kartu dengan ikon dan nama.
@@ -28,12 +27,9 @@ class ItemCard extends StatelessWidget {
 
             );
             if (item.name == "Add News") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewsFormPage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/news-form');
+            } else if (item.name == "See Football News") {
+              Navigator.pushNamed(context, '/news-list');
             }
         },
         // Container untuk menyimpan Icon dan Text

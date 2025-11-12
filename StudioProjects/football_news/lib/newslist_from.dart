@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_news/widgets/left_drawer.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:football_news/menu.dart';
 
 class NewsFormPage extends StatefulWidget {
     const NewsFormPage({super.key});
@@ -27,6 +31,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
 
     @override
     Widget build(BuildContext context) {
+      final request = context.watch<CookieRequest>();
         return Scaffold(
   appBar: AppBar(
     title: const Center(
@@ -63,7 +68,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
                 if (value == null || value.isEmpty) {
                   return 'title cant be empty';
                 }
-                return null;
+                return null;  
               },
             ),
           ),
@@ -161,6 +166,34 @@ class _NewsFormPageState extends State<NewsFormPage> {
           ),
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
+
+              final response = await request.postJson(
+                "http://localhost:8000/create-flutter/",
+                jsonEncode({
+                  "title": _title,
+                  "content": _content,
+                  "thumbnail": _thumbnail,
+                  "category": _category,
+                  "is_featured": _isFeatured,
+                }),
+              );
+               if (context.mounted) {
+      if (response['status'] == 'success') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(
+          content: Text("News successfully saved!"),
+        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(
+          content: Text("Something went wrong, please try again."),
+        ));
+      }
               await showDialog(
                 context: context,
                 builder: (context) {
@@ -202,6 +235,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
                 _isFeatured = false;
               });
             }
+          }
           },
           child: const Text(
             "Save",
